@@ -7,8 +7,11 @@ import { Provider } from './createContext'
 class AppProvider extends Component {
   state = {
     cart: [],
+    fullcart: [],
     setCart: items => this.setState({ cart: items }),
+    setFullCart: items => this.setState({ fullcart: items }),
     addToCart: this.addToCart.bind(this),
+    addToFullCart: this.addToFullCart.bind(this),
   }
 
   addToCart(newItem) {
@@ -27,6 +30,22 @@ class AppProvider extends Component {
     this.state.setCart(updatedCart)
     // Store the cart in the localStorage.
     localStorage.setItem('stripe_checkout_items', JSON.stringify(updatedCart))
+  }
+
+  addToFullCart(newItem) {
+    let itemExisted = false
+    let updatedCart = this.state.fullcart.map(item => {
+      if (newItem.id === item.sku.id) {
+        itemExisted = true
+        return { sku: item.sku, quantity: ++item.quantity }
+      } else {
+        return item
+      }
+    })
+    if (!itemExisted) {
+      updatedCart = [...updatedCart, { sku: newItem, quantity: 1 }]
+    }
+    this.state.setFullCart(updatedCart)
   }
 
   render() {

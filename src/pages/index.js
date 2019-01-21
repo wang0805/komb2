@@ -2,10 +2,9 @@ import React from 'react'
 import Helmet from 'react-helmet'
 
 import Layout from '../components/layout'
-// import Lightbox from 'react-images'
 import AppProvider from '../components/store/provider'
 import Skus from '../components/Skus'
-import Cart from '../components/Cart'
+import Carts from '../components/Carts'
 
 class HomeIndex extends React.Component {
   constructor() {
@@ -14,6 +13,8 @@ class HomeIndex extends React.Component {
     this.state = {
       lightboxIsOpen: false,
       currentImage: 0,
+      open: false,
+      scroll: 'body',
     }
 
     this.closeLightbox = this.closeLightbox.bind(this)
@@ -21,6 +22,14 @@ class HomeIndex extends React.Component {
     this.gotoPrevious = this.gotoPrevious.bind(this)
     this.openLightbox = this.openLightbox.bind(this)
     this.handleClickImage = this.handleClickImage.bind(this)
+  }
+
+  handleClickOpen = scroll => () => {
+    this.setState({ open: true, scroll })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false })
   }
 
   openLightbox(index, event) {
@@ -91,14 +100,19 @@ class HomeIndex extends React.Component {
               <Skus />
               <ul className="actions">
                 <li>
-                  <a href="#" className="button">
-                    Full Menu
+                  <a className="button" onClick={this.handleClickOpen('body')}>
+                    Cart
                   </a>
                 </li>
               </ul>
             </section>
 
-            <Cart />
+            {/* cart dialog box */}
+            <Carts
+              handleClose={this.handleClose}
+              open={this.state.open}
+              scroll={this.state.scroll}
+            />
 
             <section id="three">
               <h2>Get In Touch</h2>

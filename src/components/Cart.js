@@ -1,6 +1,5 @@
 /* eslint-disable no-debugger */
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import Checkout from './Checkout'
 
 import { MyContext } from '../components/store/createContext'
@@ -24,10 +23,6 @@ class Cart extends Component {
       </div>
     )
   }
-}
-
-Cart.propTypes = {
-  children: PropTypes.node.isRequired,
 }
 
 Cart.contextType = MyContext
