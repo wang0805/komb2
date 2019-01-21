@@ -3,28 +3,28 @@ import PropTypes from 'prop-types'
 
 import { MyContext } from '../components/store/createContext'
 
-const cardStyles = {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-around',
-  alignItems: 'flex-start',
-  padding: '1rem',
-  marginBottom: '1rem',
-  boxShadow: '5px 5px 25px 0 rgba(46,61,73,.2)',
-  backgroundColor: '#fff',
-  borderRadius: '6px',
-  maxWidth: '300px',
-}
-const buttonStyles = {
-  fontSize: '13px',
-  textAlign: 'center',
-  color: '#fffff',
-  outline: 'none',
-  padding: '12px',
-  boxShadow: '2px 5px 10px rgba(0,0,0,.1)',
-  borderRadius: '6px',
-  letterSpacing: '1.5px',
-}
+// const cardStyles = {
+//   display: 'flex',
+//   flexDirection: 'column',
+//   justifyContent: 'space-around',
+//   alignItems: 'flex-start',
+//   padding: '1rem',
+//   marginBottom: '1rem',
+//   boxShadow: '5px 5px 25px 0 rgba(46,61,73,.2)',
+//   backgroundColor: '#fff',
+//   borderRadius: '6px',
+//   maxWidth: '300px',
+// }
+// const buttonStyles = {
+//   fontSize: '13px',
+//   textAlign: 'center',
+//   color: '#fffff',
+//   outline: 'none',
+//   padding: '12px',
+//   boxShadow: '2px 5px 10px rgba(0,0,0,.1)',
+//   borderRadius: '6px',
+//   letterSpacing: '1.5px',
+// }
 
 const formatPrice = (amount, currency) => {
   let price = (amount / 100).toFixed(2)
@@ -60,22 +60,36 @@ class SkuCard extends React.Component {
   render() {
     const sku = this.props.sku
     return (
-      <div style={cardStyles}>
-        <h4>{sku.attributes.name}</h4>
-        <br />
-        <p>{formatPrice(sku.price, sku.currency)}</p>
-        <img src={sku.image} width="200px" alt="TBA" />
-        <br />
-        <button
-          style={buttonStyles}
-          onClick={event => this.addToCart(event, sku.id)}
-          disabled={this.state.disabled}
+      //   <div style={cardStyles}>
+      //     <h4>{sku.attributes.name}</h4>
+      //     <br />
+      //     <p>{formatPrice(sku.price, sku.currency)}</p>
+      //     <img src={sku.image} width="200px" alt="TBA" />
+      //     <br />
+      //     <button
+      //       style={buttonStyles}
+      //       onClick={event => this.addToCart(event, sku.id)}
+      //       disabled={this.state.disabled}
+      //     >
+      //       {this.state.buttonText}
+      //     </button>
+      //     <br />
+      //     {this.state.paymentMessage}
+      //   </div>
+
+      <article className="6u 12u$(xsmall) work-item">
+        <a
+          className="image fit thumb"
+          onClick={e => {
+            alert('clicked!')
+          }}
         >
-          {this.state.buttonText}
-        </button>
-        <br />
-        {this.state.paymentMessage}
-      </div>
+          <img src={sku.image} alt="tba" />
+        </a>
+
+        <h3>{sku.attributes.name}</h3>
+        <p>{formatPrice(sku.price, sku.currency)}</p>
+      </article>
     )
   }
 }

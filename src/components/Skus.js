@@ -22,7 +22,7 @@ export default props => (
       }
     `}
     render={({ skus }) => (
-      <div>
+      <div className="row">
         {skus.edges.map(({ node: sku }) => (
           <SkuCard {...props} key={sku.id} sku={sku} />
         ))}

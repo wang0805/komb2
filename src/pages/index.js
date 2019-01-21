@@ -151,19 +151,8 @@ class HomeIndex extends React.Component {
             </section>
 
             <section id="two">
-              <h2>Recent Work</h2>
-
-              <Gallery
-                images={DEFAULT_IMAGES.map(
-                  ({ id, src, thumbnail, caption, description }) => ({
-                    src,
-                    thumbnail,
-                    caption,
-                    description,
-                  })
-                )}
-              />
-
+              <h2>Our Kombucha creation</h2>
+              <Skus />
               <ul className="actions">
                 <li>
                   <a href="#" className="button">
@@ -173,7 +162,6 @@ class HomeIndex extends React.Component {
               </ul>
             </section>
 
-            <Skus />
             <Cart />
 
             <section id="three">
