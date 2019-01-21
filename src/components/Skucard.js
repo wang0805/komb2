@@ -3,6 +3,16 @@ import PropTypes from 'prop-types'
 
 import { MyContext } from '../components/store/createContext'
 
+import { withStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import MuiDialogTitle from '@material-ui/core/DialogTitle'
+import MuiDialogContent from '@material-ui/core/DialogContent'
+import MuiDialogActions from '@material-ui/core/DialogActions'
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close'
+import Typography from '@material-ui/core/Typography'
+
 // const cardStyles = {
 //   display: 'flex',
 //   flexDirection: 'column',
@@ -26,6 +36,51 @@ import { MyContext } from '../components/store/createContext'
 //   letterSpacing: '1.5px',
 // }
 
+const DialogTitle = withStyles(theme => ({
+  root: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    margin: 0,
+    padding: theme.spacing.unit * 2,
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing.unit,
+    top: theme.spacing.unit,
+    color: theme.palette.grey[500],
+  },
+}))(props => {
+  const { children, classes, onClose } = props
+  return (
+    <MuiDialogTitle disableTypography className={classes.root}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton
+          aria-label="Close"
+          className={classes.closeButton}
+          onClick={onClose}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  )
+})
+
+const DialogContent = withStyles(theme => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing.unit * 2,
+  },
+}))(MuiDialogContent)
+
+const DialogActions = withStyles(theme => ({
+  root: {
+    borderTop: `1px solid ${theme.palette.divider}`,
+    margin: 0,
+    padding: theme.spacing.unit,
+  },
+}))(MuiDialogActions)
+
 const formatPrice = (amount, currency) => {
   let price = (amount / 100).toFixed(2)
   let numberFormat = new Intl.NumberFormat(['en-US'], {
@@ -41,6 +96,17 @@ class SkuCard extends React.Component {
     disabled: false,
     buttonText: 'ADD TO CART',
     paymentMessage: '',
+    open: false,
+  }
+
+  handleClickOpen = () => {
+    this.setState({
+      open: true,
+    })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false })
   }
 
   resetButton() {
@@ -76,20 +142,47 @@ class SkuCard extends React.Component {
       //     <br />
       //     {this.state.paymentMessage}
       //   </div>
+      <React.Fragment>
+        <article className="6u 12u$(xsmall) work-item" key={this.props.key}>
+          <span className="image fit thumb" onClick={this.handleClickOpen}>
+            <img src={sku.image} alt="tba" height="200" />
+          </span>
 
-      <article className="6u 12u$(xsmall) work-item">
-        <a
-          className="image fit thumb"
-          onClick={e => {
-            alert('clicked!')
-          }}
+          <h3>{sku.attributes.name}</h3>
+          <p>{formatPrice(sku.price, sku.currency)}</p>
+        </article>
+        <Dialog
+          onClose={this.handleClose}
+          aria-labelledby="customized-dialog-title"
+          open={this.state.open}
         >
-          <img src={sku.image} alt="tba" />
-        </a>
-
-        <h3>{sku.attributes.name}</h3>
-        <p>{formatPrice(sku.price, sku.currency)}</p>
-      </article>
+          <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
+            {sku.attributes.name}
+          </DialogTitle>
+          <DialogContent>
+            <Typography gutterBottom>
+              Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+              dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
+              ac consectetur ac, vestibulum at eros.
+            </Typography>
+            <Typography gutterBottom>
+              Praesent commodo cursus magna, vel scelerisque nisl consectetur
+              et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+              auctor.
+            </Typography>
+            <img src={sku.image} alt="tba" width="100%" />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={event => this.addToCart(event, sku.id)}
+              color="primary"
+              disabled={this.state.disabled}
+            >
+              Add to Cart
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </React.Fragment>
     )
   }
 }

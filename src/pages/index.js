@@ -113,7 +113,7 @@ class HomeIndex extends React.Component {
   }
 
   render() {
-    const siteTitle = 'Gatsby Starter - Strata'
+    const siteTitle = 'Pooch & Booch'
     const siteDescription = 'Site description'
 
     return (
@@ -127,11 +127,7 @@ class HomeIndex extends React.Component {
           <div id="main">
             <section id="one">
               <header className="major">
-                <h2>
-                  Ipsum lorem dolor aliquam ante commodo
-                  <br />
-                  magna sed accumsan arcu neque.
-                </h2>
+                <h2>About Us</h2>
               </header>
               <p>
                 Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc
