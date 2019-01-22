@@ -112,14 +112,15 @@ class SkuCard extends React.Component {
   resetButton() {
     this.setState({
       disabled: false,
-      buttonText: 'ADD ME AGAIN!',
+      buttonText: 'ADD AGAIN!',
     })
   }
   // addToCart(event, skuId, quantity = 1)
-  addToCart(event, skuId) {
+  addToCart(event, sku) {
     event.preventDefault()
     this.setState({ disabled: true, buttonText: 'ADDED...' })
-    this.context.addToCart(skuId)
+    // added to full cart inorder to display on cart component
+    this.context.addToFullCart(sku)
     setTimeout(this.resetButton.bind(this), 500)
   }
 
@@ -174,12 +175,14 @@ class SkuCard extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={event => this.addToCart(event, sku.id)}
+              onClick={event => this.addToCart(event, sku)}
               color="primary"
               disabled={this.state.disabled}
             >
-              Add to Cart
+              {this.state.buttonText}
             </Button>
+            <br />
+            {this.state.paymentMessage}
           </DialogActions>
         </Dialog>
       </React.Fragment>

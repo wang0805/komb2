@@ -6,15 +6,16 @@ import { Provider } from './createContext'
 // Feel free to abstract actions and state away from this file.
 class AppProvider extends Component {
   state = {
-    cart: [],
-    setCart: items => this.setState({ cart: items }),
-    addToCart: this.addToCart.bind(this),
+    fullcart: [],
+    setFullCart: items => this.setState({ fullcart: items }),
+    addToFullCart: this.addToFullCart.bind(this),
+    remove: this.remove.bind(this),
   }
 
-  addToCart(newItem) {
+  addToFullCart(newItem) {
     let itemExisted = false
-    let updatedCart = this.state.cart.map(item => {
-      if (newItem === item.sku) {
+    let updatedCart = this.state.fullcart.map(item => {
+      if (newItem.id === item.sku.id) {
         itemExisted = true
         return { sku: item.sku, quantity: ++item.quantity }
       } else {
@@ -24,9 +25,35 @@ class AppProvider extends Component {
     if (!itemExisted) {
       updatedCart = [...updatedCart, { sku: newItem, quantity: 1 }]
     }
-    this.state.setCart(updatedCart)
-    // Store the cart in the localStorage.
-    localStorage.setItem('stripe_checkout_items', JSON.stringify(updatedCart))
+    this.state.setFullCart(updatedCart)
+    localStorage.setItem(
+      'stripe_checkout_fullitems',
+      JSON.stringify(updatedCart)
+    )
+  }
+
+  remove(itemid) {
+    let indexsplice
+    let updatedCart = this.state.fullcart.map((item, index) => {
+      if (itemid === item.sku.id && item.quantity > 1) {
+        return { sku: item.sku, quantity: --item.quantity }
+      } else if (itemid === item.sku.id && item.quantity === 1) {
+        indexsplice = index
+        return item
+      } else {
+        return item
+      }
+    })
+    if (indexsplice !== undefined) {
+      var removed = updatedCart.splice(indexsplice, 1)
+      console.log('removinggggg')
+    }
+    console.log(updatedCart, 'checking if removed')
+    this.state.setFullCart(updatedCart)
+    localStorage.setItem(
+      'stripe_checkout_fullitems',
+      JSON.stringify(updatedCart)
+    )
   }
 
   render() {

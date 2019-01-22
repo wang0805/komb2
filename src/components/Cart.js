@@ -1,6 +1,5 @@
 /* eslint-disable no-debugger */
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import Checkout from './Checkout'
 
 import { MyContext } from '../components/store/createContext'
@@ -8,11 +7,11 @@ import { MyContext } from '../components/store/createContext'
 class Cart extends Component {
   componentDidMount() {
     // Get existing cart from localstorage if present.
-    const existingCart = JSON.parse(
-      localStorage.getItem('stripe_checkout_items')
+    const existingFullCart = JSON.parse(
+      localStorage.getItem('stripe_checkout_fullitems')
     )
-    if (existingCart && existingCart.length) {
-      this.context.setCart(existingCart)
+    if (existingFullCart && existingFullCart.length) {
+      this.context.setFullCart(existingFullCart)
     }
   }
 
@@ -20,14 +19,10 @@ class Cart extends Component {
     console.log(this.context)
     return (
       <div>
-        <Checkout cart={this.context.cart} />
+        <Checkout carts={this.context.fullcart} />
       </div>
     )
   }
-}
-
-Cart.propTypes = {
-  children: PropTypes.node.isRequired,
 }
 
 Cart.contextType = MyContext

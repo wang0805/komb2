@@ -1,16 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const buttonStyles = {
-  fontSize: '13px',
-  textAlign: 'center',
-  color: '#fffff',
-  outline: 'none',
-  padding: '12px 60px',
-  boxShadow: '2px 5px 10px rgba(0,0,0,.1)',
-  borderRadius: '6px',
-  letterSpacing: '1.5px',
-}
+import Button from '@material-ui/core/Button'
+
+// const buttonStyles = {
+//   fontSize: '13px',
+//   textAlign: 'center',
+//   color: '#fffff',
+//   outline: 'none',
+//   padding: '12px 60px',
+//   boxShadow: '2px 5px 10px rgba(0,0,0,.1)',
+//   borderRadius: '6px',
+//   letterSpacing: '1.5px',
+// }
 
 const Checkout = class extends React.Component {
   // Initialise Stripe.js with your publishable key.
@@ -24,10 +26,18 @@ const Checkout = class extends React.Component {
 
   async redirectToCheckout(event) {
     event.preventDefault()
+    let items = []
+    this.props.carts.map(item => {
+      let obj = {}
+      obj.sku = item.sku.id
+      obj.quantity = item.quantity
+      items.push(obj)
+    })
+    console.log(items, this.context, 'checking redirecttocheckout')
     const { error } = await this.stripe.redirectToCheckout({
-      items: this.props.cart,
-      successUrl: `http://localhost:8000/`,
-      cancelUrl: `http://localhost:8000/`,
+      items: items,
+      successUrl: `http://localhost:8000/#`,
+      cancelUrl: `http://localhost:8000/#`,
     })
 
     if (error) {
@@ -37,13 +47,20 @@ const Checkout = class extends React.Component {
 
   render() {
     return (
-      <button
-        style={buttonStyles}
+      //   <button
+      //     style={buttonStyles}
+      //     onClick={event => this.redirectToCheckout(event)}
+      //     disabled={!this.props.cart.length}
+      //   >
+      //     {this.props.cart.length ? 'GO TO CHECKOUT' : 'CART IS EMPTY'}
+      //   </button>
+      <Button
+        color="primary"
         onClick={event => this.redirectToCheckout(event)}
-        disabled={!this.props.cart.length}
+        disabled={!this.props.carts.length}
       >
-        {this.props.cart.length ? 'GO TO CHECKOUT' : 'CART IS EMPTY'}
-      </button>
+        {this.props.carts.length ? 'GO TO CHECKOUT' : 'CART IS EMPTY'}
+      </Button>
     )
   }
 }

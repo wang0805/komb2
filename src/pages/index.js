@@ -2,10 +2,9 @@ import React from 'react'
 import Helmet from 'react-helmet'
 
 import Layout from '../components/layout'
-// import Lightbox from 'react-images'
 import AppProvider from '../components/store/provider'
 import Skus from '../components/Skus'
-import Cart from '../components/Cart'
+import Carts from '../components/Carts'
 
 class HomeIndex extends React.Component {
   constructor() {
@@ -14,6 +13,8 @@ class HomeIndex extends React.Component {
     this.state = {
       lightboxIsOpen: false,
       currentImage: 0,
+      open: false,
+      scroll: 'body',
     }
 
     this.closeLightbox = this.closeLightbox.bind(this)
@@ -21,6 +22,14 @@ class HomeIndex extends React.Component {
     this.gotoPrevious = this.gotoPrevious.bind(this)
     this.openLightbox = this.openLightbox.bind(this)
     this.handleClickImage = this.handleClickImage.bind(this)
+  }
+
+  handleClickOpen = scroll => () => {
+    this.setState({ open: true, scroll })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false })
   }
 
   openLightbox(index, event) {
@@ -74,8 +83,7 @@ class HomeIndex extends React.Component {
                 nisi lorem vulputate lorem neque cubilia ac in adipiscing in
                 curae lobortis tortor primis integer massa adipiscing id nisi
                 accumsan pellentesque commodo blandit enim arcu non at amet id
-                arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi
-                lorem vulputate lorem neque cubilia.
+                arcu magna.
               </p>
               <ul className="actions">
                 <li>
@@ -87,26 +95,27 @@ class HomeIndex extends React.Component {
             </section>
 
             <section id="two">
-              <h2>Our Kombucha creation</h2>
+              <h2>Our Kombucha Creations</h2>
               <Skus />
               <ul className="actions">
                 <li>
-                  <a href="#" className="button">
-                    Full Menu
+                  <a className="button" onClick={this.handleClickOpen('body')}>
+                    Cart
                   </a>
                 </li>
               </ul>
             </section>
 
-            <Cart />
+            {/* cart dialog box */}
+            <Carts
+              handleClose={this.handleClose}
+              open={this.state.open}
+              scroll={this.state.scroll}
+            />
 
             <section id="three">
               <h2>Get In Touch</h2>
-              <p>
-                Accumsan pellentesque commodo blandit enim arcu non at amet id
-                arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi
-                lorem vulputate lorem neque lorem ipsum dolor.
-              </p>
+              <p>We at P&B are always glad to help</p>
               <div className="row">
                 <div className="8u 12u$(small)">
                   <form method="post" action="#">
