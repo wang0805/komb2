@@ -26,10 +26,18 @@ const Checkout = class extends React.Component {
 
   async redirectToCheckout(event) {
     event.preventDefault()
+    let items = []
+    this.props.carts.map(item => {
+      let obj = {}
+      obj.sku = item.sku.id
+      obj.quantity = item.quantity
+      items.push(obj)
+    })
+    console.log(items, this.context, 'checking redirecttocheckout')
     const { error } = await this.stripe.redirectToCheckout({
-      items: this.props.cart,
-      successUrl: `http://localhost:8000/`,
-      cancelUrl: `http://localhost:8000/`,
+      items: items,
+      successUrl: `http://localhost:8000/#`,
+      cancelUrl: `http://localhost:8000/#`,
     })
 
     if (error) {
@@ -49,9 +57,9 @@ const Checkout = class extends React.Component {
       <Button
         color="primary"
         onClick={event => this.redirectToCheckout(event)}
-        disabled={!this.props.cart.length}
+        disabled={!this.props.carts.length}
       >
-        {this.props.cart.length ? 'GO TO CHECKOUT' : 'CART IS EMPTY'}
+        {this.props.carts.length ? 'GO TO CHECKOUT' : 'CART IS EMPTY'}
       </Button>
     )
   }
