@@ -147,11 +147,26 @@ class SkuCard extends React.Component {
         <article className="6u 12u$(xsmall) work-item" key={this.props.key}>
           <span className="image fit thumb" onClick={this.handleClickOpen}>
             <img src={sku.image} alt="tba" height="200" />
+            <p
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%,-50%)',
+                padding: '5px 18px',
+                backgroundColor: 'black',
+                borderRadius: '5px',
+                opacity: '0.5',
+              }}
+            >
+              Click here
+            </p>
           </span>
 
           <h3>{sku.attributes.name}</h3>
           <p>{formatPrice(sku.price, sku.currency)}</p>
         </article>
+
         <Dialog
           onClose={this.handleClose}
           aria-labelledby="customized-dialog-title"
