@@ -22,25 +22,31 @@ class Carts extends Component {
         <DialogTitle id="scroll-dialog-title">Cart</DialogTitle>
         <DialogContent>
           {this.context.fullcart.map(item => (
-            <div>
-              <img src={item.sku.image} alt="" width="50%" />
-              <div
-                style={{
-                  float: 'right',
-                  height: '100%',
-                }}
-              >
-                <span
-                  className="fa fa-plus"
-                  onClick={() => this.context.addToFullCart(item.sku)}
-                />
-                &nbsp;
-                <span> {item.quantity} </span>
-                &nbsp;
-                <span
-                  className="fa fa-minus"
-                  onClick={() => this.context.remove(item.sku.id)}
-                />
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <div style={{ width: '50%', marginRight: '30px' }}>
+                <img src={item.sku.image} alt="" width="100%" />
+              </div>
+              <div style={{ width: '50%' }}>
+                <div
+                  style={{
+                    position: 'relative',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                >
+                  <span
+                    className="fa fa-plus"
+                    onClick={() => this.context.addToFullCart(item.sku)}
+                  />
+                  &nbsp;
+                  <span> {item.quantity} </span>
+                  &nbsp;
+                  <span
+                    className="fa fa-minus"
+                    onClick={() => this.context.remove(item.sku.id)}
+                  />
+                </div>
               </div>
             </div>
           ))}
